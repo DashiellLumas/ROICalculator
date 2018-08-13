@@ -8,14 +8,14 @@ html {
 }
 
 body {
-  margin: 5% auto 0 auto;
+  /* margin: 5% auto 0 auto;
   width: 90%;
-  max-width: 1125px;
+  max-width: 1125px; */
 }
 
 h1 {
   font-size: 28px;
-  margin-bottom: 2.5%;
+  /* margin-bottom: 2.5%; */
 }
 
 input,
@@ -109,7 +109,7 @@ textarea.question + label > span {
   margin: 0;
   position: absolute;
   color: #8F8F8F;
-  font-size: 48px;
+  /* font-size: 48px; */
   top: -66px;
   left: 0px;
   z-index: -1;
