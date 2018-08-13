@@ -17,12 +17,31 @@ export default class App extends Component {
   render() {
     return (
       <div>
-        {this.state.username ? (
-          <h1>Hello {this.state.username}</h1>
-        ) : (
-          <h1>Loading.. please wait!</h1>
-        )}
-        <img src={ReactImage} alt="react" />
+        <h1>Nice input box</h1>
+<form>
+  <input type="text" name="name" class="question" id="nme" required autocomplete="off" />
+  <label for="nme"><span>What's your name?</span></label>
+  <textarea name="message" rows="2" class="question" id="msg" required autocomplete="off"></textarea>
+  <label for="msg"><span>What's your message?</span></label>
+  <input type="submit" value="Submit!" />
+</form>
+        Purchase
+        Down payment
+        Monthly Rent
+        Closing costs
+        Property tax
+        Insurance
+        Property management fee
+        Mortage
+        HOA
+        Vacancy
+        Repairs
+        Total expenses
+        Amount cashflow per month = Monthly Rent - Total expenses
+        Annual Net = (Amount cashflow per month)(12)
+        Cap Rate = (Annual Net - Mortgage(12))/Purchase
+        Cash Invested = Down Payment + Closing Costs
+        Cash-on-Cash = Annual Net / Cash Invested
       </div>
     );
   }
