@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import "./app.css";
 import ReactImage from "./react.png";
+import axios from 'axios';
 
 export default class App extends Component {
 
@@ -8,12 +9,13 @@ export default class App extends Component {
     super(props);
     this.state = {
       purchasePrice: null,
-      percentageDownPayment: .2,
       downPayment: null,
+      monthlyMortgage: null,
     };
 
     this.calculate = this.calculate.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.calculateDownPayment = this.calculateDownPayment.bind(this);
   }
 
   handleChange({ target }) {
@@ -23,9 +25,18 @@ export default class App extends Component {
   }
 
   calculate() {
-    let x = parseInt(this.state.purchasePrice.replace(/,/g, '')) * this.state.percentageDownPayment
-    this.setState({downPayment: x });
+    this.calculateDownPayment();
 
+
+  }
+
+  calculateDownPayment(){
+      const percentageDownPayment = .2;
+      let downPayment = parseInt(this.state.purchasePrice.replace(/,/g, '')) * percentageDownPayment;
+      this.setState({downPayment: downPayment });
+  }
+
+  calculateMonthlyMortgage(){
   }
 
   render() {
@@ -34,12 +45,25 @@ export default class App extends Component {
         <input
         type="text"
         name="purchasePrice"
-        placeholder="Enter purchase price here..."
+        placeholder="Enter investment property address here..."
         value={ this.state.purchasePrice }
         onChange={ this.handleChange }
+        className="question"
+        id="msg"
       />
+      <label for="nme">
+      </label>
        <button value="Send" onClick={ this.calculate }>Calculate</button>
-       <p>{this.state.downPayment}</p>
+       <p> Down Payment: ${this.state.downPayment}</p>
+       <p>Monthly Mortgage: $</p>
+       <p>Property Tax: $</p>
+       <p> Estimated Rent: $</p>
+       <p>Closing Costs: $</p>
+       <p>Insurance: $</p>
+       <p>Property Management Fee: $</p>
+       <p>Cashflow Per Month: $</p>
+       <p>Annual Net Profit: $</p>
+       <p>Total Expenses: $</p>
         </div>
     );
   }

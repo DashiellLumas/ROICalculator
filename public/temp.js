@@ -15,7 +15,7 @@
           {/* <label for="msg">
             <span>Down payment</span>
           </label>
-          <textarea name="message" rows="2" class="question" id="msg" required autocomplete="off"></textarea>
+          <textarea name="message" rows="2" className="question" id="msg" required autocomplete="off"></textarea>
           <label for="msg">
             <span>Monthly Rent</span>
           </label>
