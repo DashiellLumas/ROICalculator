@@ -4,8 +4,6 @@ import ReactImage from "./react.png";
 import axios from 'axios';
 import convert from 'xml-js';
 
-const queryString = '1052+Helen+St&citystatezip=Detroit%2C+MI';
-
 export default class App extends Component {
 
   constructor(props) {
@@ -47,43 +45,30 @@ export default class App extends Component {
     this.fetchSearchData = this.fetchSearchData.bind(this);
   }
 
-  componentDidMount() {
-    const queryStringoldie = '1052+Helen+St&citystatezip=Detroit%2C+MI';
-     let queryString = this.state.numberAddressQuery+'+'+this.state.streetNameAddressQuery+'+'+this.state.streetTypeAddressQuery+'&'+'citystatezip='+this.state.cityAddressQuery+'%2C'+'+'+this.state.stateAddressQuery;
-    axios.get(`http://localhost:8080/api/propertyDetails/`).then(res => {
-      console.log(res.data["0"]);
-    })
-  }
+  componentDidMount() {}
 
   fetchSearchData() {
     const queryStringoldie = '1052+Helen+St&citystatezip=Detroit%2C+MI';
      let queryString = this.state.numberAddressQuery+'+'+this.state.streetNameAddressQuery+'+'+this.state.streetTypeAddressQuery+'&'+'citystatezip='+this.state.cityAddressQuery+'%2C'+'+'+this.state.stateAddressQuery;
     axios.get(`http://localhost:8080/api/propertyDetails/${queryString}`).then(res => {
-      console.log(res.data["0"]);
+      console.log(res.data["0"]['SearchResults:searchresults'].response.results.result.zestimate.amount._text);
+       const purchasePrice = res.data["0"]['SearchResults:searchresults'].response.results.result.zestimate.amount._text;
+       const rentZestimate = res.data["0"]['SearchResults:searchresults'].response.results.result.rentzestimate.amount._text;
+      this.setState({data: res.data, rentZestimate: rentZestimate, purchasePrice: purchasePrice});
+      this.calculatePropertyManagementFee(this.state.rentZestimate);
+      this.calculateVacancy(this.state.rentZestimate);
+      this.calculateRepairs(this.state.rentZestimate);
+      this.calculateDownPayment(this.state.purchasePrice);
+      this.calculateMonthlyMortgage(this.state.purchasePrice, this.state.downPayment);
+      this.calculateClosingCosts(this.state.purchasePrice);
+      this.calculatePropertyTax(this.state.purchasePrice);
+      this.calculateTotalExpenses(this.state.repairsEstimate, this.state.vacancyEstimate, this.state.propertyTax, this.state.propertyManagementFee, this.state.monthlyPrincipal);
+      this.calculateCashflowPerMonth(this.state.rentZestimate, this.state.totalExpenses);
+      this.calculateAnnualNetProfit(this.state.cashFlowPerMonth);
+      this.calculateCapRate(this.state.annualNetProfit, this.state.monthlyPrincipal, this.state.purchasePrice);
+      this.calculcateCashOnCash(this.state.annualNetProfit, this.state.downPayment, this.state.closingCosts);
     })
-  //   const queryStringoldie = '1052+Helen+St&citystatezip=Detroit%2C+MI';
-  //    let queryString = this.state.numberAddressQuery+'+'+this.state.streetNameAddressQuery+'+'+this.state.streetTypeAddressQuery+'&'+'citystatezip='+this.state.cityAddressQuery+'%2C'+'+'+this.state.stateAddressQuery;
-  //    axios.get('http://www.zillow.com/webservice/GetSearchResults.htm?zws-id=' + API_KEY + '&address=' + queryString + '&rentzestimate=true').then(res => {
-  //      const jsonResponse = JSON.parse(convert.xml2json(res.data, {
-  //        compact: true,
-  //        spaces: 4
-  //      }));
-  //      const purchasePrice = jsonResponse['SearchResults:searchresults'].response.results.result.zestimate.amount._text;
-  //      const rentZestimate = jsonResponse['SearchResults:searchresults'].response.results.result.rentzestimate.amount._text;
-  //      this.setState({data: [jsonResponse], rentZestimate: rentZestimate, purchasePrice: purchasePrice});
-  //      this.calculatePropertyManagementFee(this.state.rentZestimate);
-  //      this.calculateVacancy(this.state.rentZestimate);
-  //      this.calculateRepairs(this.state.rentZestimate);
-  //      this.calculateDownPayment(this.state.purchasePrice);
-  //      this.calculateMonthlyMortgage(this.state.purchasePrice, this.state.downPayment);
-  //      this.calculateClosingCosts(this.state.purchasePrice);
-  //      this.calculatePropertyTax(this.state.purchasePrice);
-  //      this.calculateTotalExpenses(this.state.repairsEstimate, this.state.vacancyEstimate, this.state.propertyTax, this.state.propertyManagementFee, this.state.monthlyPrincipal);
-  //      this.calculateCashflowPerMonth(this.state.rentZestimate, this.state.totalExpenses);
-  //      this.calculateAnnualNetProfit(this.state.cashFlowPerMonth);
-  //      this.calculateCapRate(this.state.annualNetProfit, this.state.monthlyPrincipal, this.state.purchasePrice);
-  //      this.calculcateCashOnCash(this.state.annualNetProfit, this.state.downPayment, this.state.closingCosts);
-  // })
+
 }
 
   handleNumberAddressChange(event) {
