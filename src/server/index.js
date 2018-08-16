@@ -15,14 +15,16 @@ app.listen(PORT, () => {
 })
 
 app.get('/api/propertyDetails', function (req, response, next){
-  axios.get('http://www.zillow.com/webservice/GetSearchResults.htm?zws-id=' + API_KEY + '&address=' + queryString + '&rentzestimate=true')
-  .then(res => {
-    const jsonResponse = JSON.parse(convert.xml2json(res.data, {
-      compact: true,
-      spaces: 4
-  }))
-  response.json([jsonResponse]);
-})
+  let queryString = req.body;
+  console.log(queryString);
+//   axios.get('http://www.zillow.com/webservice/GetSearchResults.htm?zws-id=' + API_KEY + '&address=' + queryString + '&rentzestimate=true')
+//   .then(res => {
+//     const jsonResponse = JSON.parse(convert.xml2json(res.data, {
+//       compact: true,
+//       spaces: 4
+//   }))
+//   response.json([jsonResponse]);
+// })
 });
 
 module.exports = router;
