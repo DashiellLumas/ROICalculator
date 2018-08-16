@@ -1,7 +1,9 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
-
+require('dotenv').config();
+console.log(process.env.REACT_APP_ZILLOW_API_KEY);
+const API_KEY = process.env.REACT_APP_ZILLOW_API_KEY;
 const outputDirectory = "dist";
 
 module.exports = {
@@ -34,7 +36,8 @@ module.exports = {
     open: true,
     proxy: {
       "/api": "http://localhost:8080"
-    }
+    },
+    
   },
   plugins: [
     new CleanWebpackPlugin([outputDirectory]),

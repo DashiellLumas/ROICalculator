@@ -2,69 +2,186 @@ import React, {Component} from "react";
 import "./app.css";
 import ReactImage from "./react.png";
 import axios from 'axios';
+import convert from 'xml-js';
+
+const queryString = '1052+Helen+St&citystatezip=Detroit%2C+MI';
 
 export default class App extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
+      numberAddressQuery: '',
+      streetNameAddressQuery: '',
+      streetTypeAddressQuery: '',
+      cityAddressQuery:'',
+      stateAddressQuery: '',
       purchasePrice: null,
       downPayment: null,
-      monthlyMortgage: null,
+      data: [],
+      rentZestimate: null,
+      propertyManagementFee: null,
+      vacancyEstimate: null,
+      repairsEstimate: null,
+      closingCosts: null,
+      monthlyPrincipal: null,
+      propertyTax: null,
+      totalExpenses: null,
+      cashFlowPerMonth: null,
+      annualNetProfit: null,
+      capRate: null,
+      cashOnCash: null
     };
 
     this.calculate = this.calculate.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+    this.handleStreetNameChange = this.handleStreetNameChange.bind(this);
+    this.handleStreetTypeChange = this.handleStreetTypeChange.bind(this);
+    this.handleCityChange = this.handleCityChange.bind(this);
+    this.handleStateChange = this.handleStateChange.bind(this);
+    this.handleNumberAddressChange = this.handleNumberAddressChange.bind(this);
     this.calculateDownPayment = this.calculateDownPayment.bind(this);
+    this.calculateRepairs = this.calculateRepairs.bind(this);
+    this.calculateVacancy = this.calculateVacancy.bind(this);
+    this.calculatePropertyManagementFee = this.calculatePropertyManagementFee.bind(this);
+    this.calculateClosingCosts = this.calculateClosingCosts.bind(this);
+    this.fetchSearchData = this.fetchSearchData.bind(this);
   }
 
-  handleChange({ target }) {
-    this.setState({
-      [target.name]: target.value
-    });
+  componentDidMount() {}
+
+  fetchSearchData() {
+    const queryStringoldie = '1052+Helen+St&citystatezip=Detroit%2C+MI';
+     let queryString = this.state.numberAddressQuery+'+'+this.state.streetNameAddressQuery+'+'+this.state.streetTypeAddressQuery+'&'+'citystatezip='+this.state.cityAddressQuery+'%2C'+'+'+this.state.stateAddressQuery;
+     axios.get('http://www.zillow.com/webservice/GetSearchResults.htm?zws-id=' + API_KEY + '&address=' + queryString + '&rentzestimate=true').then(res => {
+       const jsonResponse = JSON.parse(convert.xml2json(res.data, {
+         compact: true,
+         spaces: 4
+       }));
+       const purchasePrice = jsonResponse['SearchResults:searchresults'].response.results.result.zestimate.amount._text;
+       const rentZestimate = jsonResponse['SearchResults:searchresults'].response.results.result.rentzestimate.amount._text;
+       this.setState({data: [jsonResponse], rentZestimate: rentZestimate, purchasePrice: purchasePrice});
+       this.calculatePropertyManagementFee(this.state.rentZestimate);
+       this.calculateVacancy(this.state.rentZestimate);
+       this.calculateRepairs(this.state.rentZestimate);
+       this.calculateDownPayment(this.state.purchasePrice);
+       this.calculateMonthlyMortgage(this.state.purchasePrice, this.state.downPayment);
+       this.calculateClosingCosts(this.state.purchasePrice);
+       this.calculatePropertyTax(this.state.purchasePrice);
+       this.calculateTotalExpenses(this.state.repairsEstimate, this.state.vacancyEstimate, this.state.propertyTax, this.state.propertyManagementFee, this.state.monthlyPrincipal);
+       this.calculateCashflowPerMonth(this.state.rentZestimate, this.state.totalExpenses);
+       this.calculateAnnualNetProfit(this.state.cashFlowPerMonth);
+       this.calculateCapRate(this.state.annualNetProfit, this.state.monthlyPrincipal, this.state.purchasePrice);
+       this.calculcateCashOnCash(this.state.annualNetProfit, this.state.downPayment, this.state.closingCosts);
+  })
+}
+
+  handleNumberAddressChange(event) {
+    this.setState({numberAddressQuery: event.target.value});
+
   }
 
-  calculate() {
-    this.calculateDownPayment();
-
-
+  handleStreetNameChange(event){
+    this.setState({streetNameAddressQuery: event.target.value});
+  }
+  handleStreetTypeChange(event){
+    this.setState({streetTypeAddressQuery: event.target.value});
+  }
+  handleCityChange(event){
+    this.setState({cityAddressQuery: event.target.value});
   }
 
-  calculateDownPayment(){
-      const percentageDownPayment = .2;
-      let downPayment = parseInt(this.state.purchasePrice.replace(/,/g, '')) * percentageDownPayment;
-      this.setState({downPayment: downPayment });
+  handleStateChange(event){
+    this.setState({stateAddressQuery: event.target.value});
   }
 
-  calculateMonthlyMortgage(){
+
+  calculateDownPayment(purchasePrice) {
+    let downPayment = Math.round(Number(this.state.purchasePrice) * .2);
+    this.setState({downPayment: downPayment});
   }
 
+  calculateMonthlyMortgage(purchasePrice, downPayment) {
+    let monthlyPrincipal = Math.round(((Number(purchasePrice) - Number(downPayment)) / 30) / 12)
+    this.setState({monthlyPrincipal: monthlyPrincipal})
+  }
+
+  calculatePropertyManagementFee(rentZestimate) {
+    let propertyManagementFee = Math.round(Number(rentZestimate) * .1);
+    this.setState({propertyManagementFee: propertyManagementFee})
+  }
+
+  calculateVacancy(rentZestimate) {
+    let vacancyEstimate = Math.round(Number(rentZestimate) * .1);
+    this.setState({vacancyEstimate: vacancyEstimate});
+  }
+
+  calculateRepairs(rentZestimate) {
+    let repairsEstimate = Math.round(Number(rentZestimate) * .05);
+    this.setState({repairsEstimate: repairsEstimate});
+  }
+
+  calculateClosingCosts(purchasePrice) {
+    let closingCosts = Math.round(Number(purchasePrice) * .0379);
+    this.setState({closingCosts: closingCosts});
+  }
+
+  calculatePropertyTax(purchasePrice) {
+    let propertyTax = Math.round((Number(purchasePrice) * .0276) / 12);
+    this.setState({propertyTax: propertyTax});
+  }
+
+  calculateTotalExpenses(repairsEstimate, vacancyEstimate, propertyTax, propertyManagementFee, monthlyPrincipal) {
+    let totalExpenses = Math.round(Number(repairsEstimate) + Number(vacancyEstimate) + Number(propertyTax) + Number(propertyManagementFee) + Number(monthlyPrincipal));
+    this.setState({totalExpenses: totalExpenses})
+  }
+
+  calculateCashflowPerMonth(rentZestimate, totalExpenses) {
+    let cashFlowPerMonth = Math.round(Number(rentZestimate) - Number(totalExpenses));
+    this.setState({cashFlowPerMonth: cashFlowPerMonth});
+  }
+
+  calculateAnnualNetProfit(cashFlowPerMonth) {
+    let annualNetProfit = Math.round((Number(cashFlowPerMonth) * 12));
+    this.setState({annualNetProfit: annualNetProfit});
+  }
+
+  calculateCapRate(annualNetProfit, monthlyPrincipal, purchasePrice) {
+    let capRate = Math.round(((Number(annualNetProfit) + (Number(monthlyPrincipal)*12)) / Number(purchasePrice)) * 100)
+    this.setState({capRate: capRate})
+  }
+
+  calculcateCashOnCash(annualNetProfit, downPayment, closingCosts) {
+    let cashInvested = Number(downPayment) + Number(closingCosts);
+    let cashOnCash = Math.round((Number(annualNetProfit) / Number(cashInvested)) * 100);
+    this.setState({cashOnCash: cashOnCash})
+  }
+
+  calculate() {}
   render() {
     return (
       <div>
-        <input
-        type="text"
-        name="purchasePrice"
-        placeholder="Enter investment property address here..."
-        value={ this.state.purchasePrice }
-        onChange={ this.handleChange }
-        className="question"
-        id="msg"
-      />
-      <label for="nme">
-      </label>
-       <button value="Send" onClick={ this.calculate }>Calculate</button>
-       <p> Down Payment: ${this.state.downPayment}</p>
-       <p>Monthly Mortgage: $</p>
-       <p>Property Tax: $</p>
-       <p> Estimated Rent: $</p>
-       <p>Closing Costs: $</p>
-       <p>Insurance: $</p>
-       <p>Property Management Fee: $</p>
-       <p>Cashflow Per Month: $</p>
-       <p>Annual Net Profit: $</p>
-       <p>Total Expenses: $</p>
-        </div>
+        <input type="text" name="purchasePrice" placeholder="Number Address" onChange={this.handleNumberAddressChange} className="question" id="msg"/>
+        <input type="text" name="purchasePrice" placeholder="Name and Street or Address" onChange={this.handleStreetNameChange} className="question" />
+        <input type="text" name="purchasePrice" placeholder="Street Type" onChange={this.handleStreetTypeChange} className="question" />
+        <input type="text" name="purchasePrice" placeholder="City" onChange={this.handleCityChange} className="question"/>
+        <input type="text" name="purchasePrice" placeholder="State" onChange={this.handleStateChange} className="question"/>
+        <label for="nme"></label>
+        <button value="Send" onClick={this.fetchSearchData}>Calculate</button>
+        <p>Purchase Price: ${this.state.purchasePrice}</p>
+        <p>Down Payment: ${this.state.downPayment}</p>
+        <p>Monthly Mortgage: ${this.state.monthlyPrincipal}</p>
+        <p>Monthly Rent ${this.state.rentZestimate}</p>
+        <p>Repairs ${this.state.repairsEstimate}</p>
+        <p>Vacancy ${this.state.vacancyEstimate}</p>
+        <p>Property Tax: ${this.state.propertyTax}</p>
+        <p>Closing Costs: ${this.state.closingCosts}</p>
+        <p>Property Management Fee: ${this.state.propertyManagementFee}</p>
+        <p>Cashflow Per Month: ${this.state.cashFlowPerMonth}</p>
+        <p>Annual Net Profit: ${this.state.annualNetProfit}</p>
+        <p>Total Expenses: ${this.state.totalExpenses}</p>
+        <p>Cash on Cash Rate: {this.state.cashOnCash}%</p>
+        <p>Cap Rate: {this.state.capRate}%</p>
+      </div>
     );
   }
 }
