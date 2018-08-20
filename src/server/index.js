@@ -1,16 +1,16 @@
 const express = require('express');
 const axios = require('axios');
-var bodyParser = require("body-parser");
+const bodyParser = require("body-parser");
 
-const os = require('os');
 require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 8080;
 const API_KEY = process.env.REACT_APP_ZILLOW_API_KEY;
-// const queryString = '1052+Helen+St&citystatezip=Detroit%2C+MI';
+
 var router = express.Router();
 var api = require('./api/zillow');
 var convert = require('xml-js');
+var states = require('./model/states');
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
@@ -30,6 +30,10 @@ app.get('/api/propertyDetails/:queryString', function (req, response, next){
   }))
   response.json([jsonResponse]);
 })
+});
+
+app.get('/api/states', function (req,res, next){
+  res.json(states);
 });
 
 
