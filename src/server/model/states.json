@@ -7,12 +7,7 @@
     {
         "name": "Alaska",
         "abbreviation": "AK",
-        "propertyTax":
-    },
-    {
-        "name": "American Samoa",
-        "abbreviation": "AS",
-        "propertyTax":
+        "propertyTax": 1.19
     },
     {
         "name": "Arizona",
@@ -37,7 +32,7 @@
     {
         "name": "Connecticut",
         "abbreviation": "CT",
-        "propertyTax":
+        "propertyTax": 2.02
     },
     {
         "name": "Delaware",
@@ -50,11 +45,6 @@
         "propertyTax": 0.56
     },
     {
-        "name": "Federated States Of Micronesia",
-        "abbreviation": "FM",
-        "propertyTax":
-    },
-    {
         "name": "Florida",
         "abbreviation": "FL",
         "propertyTax": 1.02
@@ -63,11 +53,6 @@
         "name": "Georgia",
         "abbreviation": "GA",
         "propertyTax": 0.93
-    },
-    {
-        "name": "Guam",
-        "abbreviation": "GU",
-        "propertyTax":
     },
     {
         "name": "Hawaii",
@@ -82,7 +67,7 @@
     {
         "name": "Illinois",
         "abbreviation": "IL",
-        "propertyTax":
+        "propertyTax": 2.32
     },
     {
         "name": "Indiana",
@@ -92,12 +77,12 @@
     {
         "name": "Iowa",
         "abbreviation": "IA",
-        "propertyTax":
+        "propertyTax": 1.50
     },
     {
         "name": "Kansas",
         "abbreviation": "KS",
-        "propertyTax":
+        "propertyTax": 1.40
     },
     {
         "name": "Kentucky",
@@ -112,32 +97,27 @@
     {
         "name": "Maine",
         "abbreviation": "ME",
-        "propertyTax":
-    },
-    {
-        "name": "Marshall Islands",
-        "abbreviation": "MH",
-        "propertyTax":
+        "propertyTax": 1.32
     },
     {
         "name": "Maryland",
         "abbreviation": "MD",
-        "propertyTax":
+        "propertyTax": 1.10
     },
     {
         "name": "Massachusetts",
         "abbreviation": "MA",
-        "propertyTax":
+        "propertyTax": 1.21
     },
     {
         "name": "Michigan",
         "abbreviation": "MI",
-        "propertyTax":
+        "propertyTax": 0.59
     },
     {
         "name": "Minnesota",
         "abbreviation": "MN",
-        "propertyTax":
+        "propertyTax": 1.17
     },
     {
         "name": "Mississippi",
@@ -157,7 +137,7 @@
     {
         "name": "Nebraska",
         "abbreviation": "NE",
-        "propertyTax":
+        "propertyTax": 1.60
     },
     {
         "name": "Nevada",
@@ -167,12 +147,12 @@
     {
         "name": "New Hampshire",
         "abbreviation": "NH",
-        "propertyTax":
+        "propertyTax": 1.80
     },
     {
         "name": "New Jersey",
         "abbreviation": "NJ",
-        "propertyTax":
+        "propertyTax": 2.40
     },
     {
         "name": "New Mexico",
@@ -182,7 +162,7 @@
     {
         "name": "New York",
         "abbreviation": "NY",
-        "propertyTax":
+        "propertyTax": 1.65
     },
     {
         "name": "North Carolina",
@@ -195,14 +175,9 @@
         "propertyTax": 1.05
     },
     {
-        "name": "Northern Mariana Islands",
-        "abbreviation": "MP",
-        "propertyTax":
-    },
-    {
         "name": "Ohio",
         "abbreviation": "OH",
-        "propertyTax":
+        "propertyTax": 1.56
     },
     {
         "name": "Oklahoma",
@@ -212,27 +187,17 @@
     {
         "name": "Oregon",
         "abbreviation": "OR",
-        "propertyTax":
-    },
-    {
-        "name": "Palau",
-        "abbreviation": "PW",
-        "propertyTax":
+        "propertyTax": 1.07
     },
     {
         "name": "Pennsylvania",
         "abbreviation": "PA",
-        "propertyTax":
-    },
-    {
-        "name": "Puerto Rico",
-        "abbreviation": "PR",
-        "propertyTax":
+        "propertyTax": 1.55
     },
     {
         "name": "Rhode Island",
         "abbreviation": "RI",
-        "propertyTax":
+        "propertyTax": 1.65
     },
     {
         "name": "South Carolina",
@@ -242,7 +207,7 @@
     {
         "name": "South Dakota",
         "abbreviation": "SD",
-        "propertyTax":
+        "propertyTax": 1.32
     },
     {
         "name": "Tennessee",
@@ -252,7 +217,7 @@
     {
         "name": "Texas",
         "abbreviation": "TX",
-        "propertyTax":
+        "propertyTax": 1.86
     },
     {
         "name": "Utah",
@@ -261,13 +226,8 @@
     },
     {
         "name": "Vermont",
-        "abbreviation": "VT",
-        "propertyTax":
-    },
-    {
-        "name": "Virgin Islands",
-        "abbreviation": "VI",
-        "propertyTax":
+        "abbreviation":  "VT",
+        "propertyTax": 1.78
     },
     {
         "name": "Virginia",
@@ -277,7 +237,7 @@
     {
         "name": "Washington",
         "abbreviation": "WA",
-        "propertyTax":
+        "propertyTax": 1.06
     },
     {
         "name": "West Virginia",
@@ -287,7 +247,7 @@
     {
         "name": "Wisconsin",
         "abbreviation": "WI",
-        "propertyTax":
+        "propertyTax": 1.95
     },
     {
         "name": "Wyoming",

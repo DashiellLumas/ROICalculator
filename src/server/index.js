@@ -1,16 +1,23 @@
 const express = require('express');
 const axios = require('axios');
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost:27017/roi_calculator_db')
+.then(() => console.log('connection successful'))
+.catch((err) => console.log(err));
+mongoose.Promise = global.Promise;
+var Db = require('mongodb').Db;
+var Schema = mongoose.Schema;
 const bodyParser = require("body-parser");
-
+const MongoClient = require('mongodb').MongoClient;
+const Server = require('mongodb').Server;
 require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 8080;
 const API_KEY = process.env.REACT_APP_ZILLOW_API_KEY;
-
 var router = express.Router();
 var api = require('./api/zillow');
 var convert = require('xml-js');
-var states = require('./model/states');
+var State = require('./model/States.js');
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
@@ -33,7 +40,11 @@ app.get('/api/propertyDetails/:queryString', function (req, response, next){
 });
 
 app.get('/api/states', function (req,res, next){
-  res.json(states);
+  State.find(function (err, states) {
+    if (err) return next(err);
+    res.json(states);
+    console.log(states);
+  })
 });
 
 
