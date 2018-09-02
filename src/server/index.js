@@ -1,4 +1,5 @@
 const express = require('express');
+var cors = require('cors');
 const axios = require('axios');
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/roi_calculator_db')
@@ -12,6 +13,7 @@ const MongoClient = require('mongodb').MongoClient;
 const Server = require('mongodb').Server;
 require('dotenv').config();
 const app = express();
+app.use(cors());
 const PORT = process.env.PORT || 8080;
 const API_KEY = process.env.REACT_APP_ZILLOW_API_KEY;
 var router = express.Router();
@@ -41,9 +43,12 @@ app.get('/api/propertyDetails/:queryString', function (req, response, next){
 
 app.get('/api/states', function (req,res, next){
   State.find(function (err, states) {
-    if (err) return next(err);
-    res.json(states);
-    console.log(states);
+    if (err) {
+      return next(err);
+    } else{
+          res.json(states);
+    }
+
   })
 });
 

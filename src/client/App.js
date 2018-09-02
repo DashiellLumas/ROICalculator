@@ -3,6 +3,8 @@ import "./app.css";
 import ReactImage from "./react.png";
 import axios from 'axios';
 import convert from 'xml-js';
+import 'bootstrap/dist/css/bootstrap.min.css';
+// import './style.scss';
 
 export default class App extends Component {
 
@@ -166,38 +168,46 @@ export default class App extends Component {
   render() {
     if (this.state.isLoaded == true) {
       return (
-        <div>
-          <input type="text" name="purchasePrice" placeholder="Number Address" onChange={this.handleNumberAddressChange} className="question" id="msg"/>
-          <input type="text" name="purchasePrice" placeholder="Name and Street or Address" onChange={this.handleStreetNameChange} className="question"/>
-          <input type="text" name="purchasePrice" placeholder="Street Type" onChange={this.handleStreetTypeChange} className="question"/>
-          <input type="text" name="purchasePrice" placeholder="City" onChange={this.handleCityChange} className="question"/>
-          <input type="text" name="purchasePrice" placeholder="State" onChange={this.handleStateChange} className="question"/>
-          <label for="nme"></label>
-          <select>
-            {Object.keys(this.state.usStates).map((abbreviation, key) => {
-              return (
-                <option key={key}>
-                  {this.state.usStates[key].abbreviation}
-                </option>
-              )
-            })}
+        <div className="container-fluid">
+          <h1 class="center-text">Cap Rate Calculator</h1>
+          <div className="row">
+            <div className="col-md-4">
+              <input type="text" name="Number" placeholder="Number" onChange={this.handleNumberAddressChange} className="question" id="msg"/>
+              <input type="text" name="Street Name" placeholder="Street Name" onChange={this.handleStreetNameChange} className="question"/>
+              <input type="text" name="Street Type" placeholder="Street Type" onChange={this.handleStreetTypeChange} className="question"/>
+              <input type="text" name="City" placeholder="City" onChange={this.handleCityChange} className="question"/>
+              <div className="select-dropdown">
+              <select className="question" onChange={this.handleStateChange}>
+                {Object.keys(this.state.usStates).map((abbreviation, key) => {
+                  return (
 
-          </select>
-          <button value="Send" onClick={this.fetchSearchData}>Calculate</button>
-          <p>Purchase Price: ${this.state.purchasePrice}</p>
-          <p>Down Payment: ${this.state.downPayment}</p>
-          <p>Monthly Mortgage: ${this.state.monthlyPrincipal}</p>
-          <p>Monthly Rent ${this.state.rentZestimate}</p>
-          <p>Repairs ${this.state.repairsEstimate}</p>
-          <p>Vacancy ${this.state.vacancyEstimate}</p>
-          <p>Property Tax: ${this.state.propertyTax}</p>
-          <p>Closing Costs: ${this.state.closingCosts}</p>
-          <p>Property Management Fee: ${this.state.propertyManagementFee}</p>
-          <p>Cashflow Per Month: ${this.state.cashFlowPerMonth}</p>
-          <p>Annual Net Profit: ${this.state.annualNetProfit}</p>
-          <p>Total Expenses: ${this.state.totalExpenses}</p>
-          <p>Cash on Cash Rate: {this.state.cashOnCash}%</p>
-          <p>Cap Rate: {this.state.capRate}%</p>
+                      <option key={key}>
+                        {this.state.usStates[key].abbreviation}
+                      </option>
+                  )
+                })}
+              </select>
+                </div>
+              <button value="Send" onClick={this.fetchSearchData}>Calculate</button>
+            </div>
+            <div class="col-md-3 col-md-offset-2"></div>
+            <div className="col-md-4 calculations">
+              <p>Purchase Price: ${this.state.purchasePrice}</p>
+              <p>Down Payment: ${this.state.downPayment}</p>
+              <p>Monthly Mortgage: ${this.state.monthlyPrincipal}</p>
+              <p>Monthly Rent ${this.state.rentZestimate}</p>
+              <p>Repairs ${this.state.repairsEstimate}</p>
+              <p>Vacancy ${this.state.vacancyEstimate}</p>
+              <p>Property Tax: ${this.state.propertyTax}</p>
+              <p>Closing Costs: ${this.state.closingCosts}</p>
+              <p>Property Management Fee: ${this.state.propertyManagementFee}</p>
+              <p>Cashflow Per Month: ${this.state.cashFlowPerMonth}</p>
+              <p>Annual Net Profit: ${this.state.annualNetProfit}</p>
+              <p>Total Expenses: ${this.state.totalExpenses}</p>
+              <p>Cash on Cash Rate: {this.state.cashOnCash}%</p>
+              <p>Cap Rate: {this.state.capRate}%</p>
+            </div>
+          </div>
         </div>
       );
     } else {
