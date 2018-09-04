@@ -5,7 +5,6 @@ import ReactImage from "./react.png";
 import axios from 'axios';
 import convert from 'xml-js';
 
-// import './style.scss';
 
 export default class App extends Component {
 
@@ -63,7 +62,7 @@ export default class App extends Component {
   fetchSearchData() {
     const queryStringoldie = '1052+Helen+St&citystatezip=Detroit%2C+MI';
     let queryString = this.state.numberAddressQuery + '+' + this.state.streetNameAddressQuery + '+' + this.state.streetTypeAddressQuery + '&' + 'citystatezip=' + this.state.cityAddressQuery + '%2C' + '+' + this.state.stateAddressQuery;
-    axios.get(`http://localhost:8080/api/propertyDetails/${queryString}`).then(res => {
+    axios.get(`/api/propertyDetails/${queryString}`).then(res => {
       console.log(res.data["0"]['SearchResults:searchresults']);
       console.log(res.data["0"]['SearchResults:searchresults'].response.results.result.zestimate.amount._text);
       const purchasePrice = res.data["0"]['SearchResults:searchresults'].response.results.result.zestimate.amount._text;
