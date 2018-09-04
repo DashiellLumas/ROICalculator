@@ -1,9 +1,10 @@
-import React, {Component} from "react";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import "./app.css";
+import React, {Component} from "react";
 import ReactImage from "./react.png";
 import axios from 'axios';
 import convert from 'xml-js';
-import 'bootstrap/dist/css/bootstrap.min.css';
+
 // import './style.scss';
 
 export default class App extends Component {
@@ -169,7 +170,7 @@ export default class App extends Component {
     if (this.state.isLoaded == true) {
       return (
         <div className="container-fluid">
-          <h1 class="center-text">Cap Rate Calculator</h1>
+          <h1 class="center-text">Capitalization Rate Calculator</h1>
           <div className="row">
             <div className="col-md-4">
               <input type="text" name="Number" placeholder="Number" onChange={this.handleNumberAddressChange} className="question" id="msg"/>

@@ -2,16 +2,25 @@ const express = require('express');
 var cors = require('cors');
 const axios = require('axios');
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/roi_calculator_db')
-.then(() => console.log('connection successful'))
-.catch((err) => console.log(err));
+require('dotenv').config();
+const CONNECTIONSTRING = process.env.CONNECTIONSTRING;
+mongoose.connect(CONNECTIONSTRING, function(err, database) {
+  if (err)
+    throw err;
+  else {
+    db = database;
+    console.log('Connected to mongoDB');
+  }
+}).then(() => console.log('connection successful')).catch((err) => console.log(err));
 mongoose.Promise = global.Promise;
+
+
+
 var Db = require('mongodb').Db;
 var Schema = mongoose.Schema;
 const bodyParser = require("body-parser");
-const MongoClient = require('mongodb').MongoClient;
 const Server = require('mongodb').Server;
-require('dotenv').config();
+
 const app = express();
 app.use(cors());
 const PORT = process.env.PORT || 8080;
@@ -22,6 +31,7 @@ var convert = require('xml-js');
 var State = require('./model/States.js');
 
 app.use(bodyParser.urlencoded({extended: false}));
+app.use(express.static('dist'));
 app.use(bodyParser.json());
 
 app.listen(PORT, () => {
