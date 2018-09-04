@@ -55,7 +55,7 @@ export default class App extends Component {
   }
 
   populateStates() {
-    axios.get(`http://localhost:8080/api/states`).then(res => {
+    axios.get(`/api/states`).then(res => {
       this.setState({isLoaded: true, usStates: res.data})
     })
   }
